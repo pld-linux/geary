@@ -62,6 +62,14 @@ find $RPM_BUILD_ROOT%{_datadir}/glib-2.0/schemas -type f -a \( \
 
 desktop-file-validate $RPM_BUILD_ROOT%{_desktopdir}/geary.desktop
 
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ca_ES
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/el_GR
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/es_ES
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/km_KH
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/nl_NL
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ro_RO
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/tr_TR
+
 %find_lang %{name} --with-gnome
 
 %clean
