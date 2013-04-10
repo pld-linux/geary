@@ -22,6 +22,7 @@ BuildRequires:	libnotify-devel >= 0.7.5
 BuildRequires:	libunique3-devel >= 3.0.0
 BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	vala >= 0.17.4
+BuildRequires:	vala-libcanberra
 Requires:	desktop-file-utils
 Requires:	glib2 >= 1:2.26.0
 Requires:	gtk-update-icon-cache
