@@ -1,31 +1,34 @@
 Summary:	A lightweight email program designed around conversations
 Name:		geary
-Version:	0.3.1
+Version:	0.8.1
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Mail
-Source0:	http://yorba.org/download/geary/stable/%{name}-%{version}.tar.xz
-# Source0-md5:	aeb7c65926cbe47d19851ecb72dbf6cc
+Source0:	https://download.gnome.org/sources/geary/0.8/%{name}-%{version}.tar.xz
+# Source0-md5:	93a1a2b2eba622a5a09e9e7a2833443e
 URL:		http://yorba.org/geary/
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
+BuildRequires:	gcr-devel >= 3.10.1
 BuildRequires:	gettext
 BuildRequires:	glib2-devel >= 1:2.30.0
 BuildRequires:	gmime-devel >= 2.6.0
-BuildRequires:	gtk+3-devel >= 3.2.0
-BuildRequires:	gtk-webkit3-devel >= 1.8.0
+BuildRequires:	gtk+3-devel >= 3.12.0
+BuildRequires:	gtk-webkit3-devel >= 1.10.0
 BuildRequires:	intltool
 BuildRequires:	libcanberra-devel >= 0.28
-BuildRequires:	libgee0.6-devel >= 0.6.0
-BuildRequires:	libgnome-keyring-devel >= 3.2.2
+BuildRequires:	libgee-devel >= 0.8.5
 BuildRequires:	libnotify-devel >= 0.7.5
-BuildRequires:	libunique3-devel >= 3.0.0
+BuildRequires:	libsecret-devel >= 0.11
+BuildRequires:	libsoup-devel
+BuildRequires:	libxml2-devel >= 2.7.8
+BuildRequires:	pkgconfig
 BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	vala >= 0.17.4
 BuildRequires:	vala-libcanberra
-Requires:	desktop-file-utils
-Requires:	glib2 >= 1:2.26.0
-Requires:	gtk-update-icon-cache
+Requires(post,postun):	desktop-file-utils
+Requires(post,postun):	glib2 >= 1:2.28.0
+Requires(post,postun):	gtk-update-icon-cache
 Requires:	hicolor-icon-theme
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -57,21 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# see http://redmine.yorba.org/issues/5692
-find $RPM_BUILD_ROOT%{_datadir}/glib-2.0/schemas -type f -a \( \
-  -name org.yorba.geary.gschema.xml -o -delete \)
-
 desktop-file-validate $RPM_BUILD_ROOT%{_desktopdir}/geary.desktop
-
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ca_ES
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/el_GR
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/es_ES
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/hi_IN
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/hu_HU
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ja_JP
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/km_KH
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/nl_NL
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ro_RO
 
 %find_lang %{name} --with-gnome
 
@@ -92,8 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS MAINTAINERS README THANKS
 %attr(755,root,root) %{_bindir}/geary
+%{_datadir}/appdata/geary.appdata.xml
 %{_datadir}/geary
 %{_desktopdir}/geary.desktop
+%{_desktopdir}/geary-autostart.desktop
 %{_datadir}/glib-2.0/schemas/org.yorba.geary.gschema.xml
 %{_iconsdir}/hicolor/*/apps/geary.*
 
