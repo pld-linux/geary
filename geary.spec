@@ -25,6 +25,7 @@ BuildRequires:	libxml2-devel >= 2.7.8
 BuildRequires:	pkgconfig
 BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	vala >= 0.17.4
+BuildRequires:	vala-gcr >= 3.10.1
 BuildRequires:	vala-libcanberra
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	glib2 >= 1:2.28.0
