@@ -1,11 +1,11 @@
 Summary:	A lightweight email program designed around conversations
 Name:		geary
-Version:	0.8.1
+Version:	0.8.3
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Mail
 Source0:	https://download.gnome.org/sources/geary/0.8/%{name}-%{version}.tar.xz
-# Source0-md5:	93a1a2b2eba622a5a09e9e7a2833443e
+# Source0-md5:	099ddc09b343c67f2e60458350fbbebf
 URL:		http://yorba.org/geary/
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
@@ -52,7 +52,8 @@ all kinds of nifty features in a modular way.
 	-DGSETTINGS_COMPILE=OFF \
 	-DGSETTINGS_COMPILE_IN_PLACE=OFF \
 	-DICON_UPDATE=OFF \
-	-DDESKTOP_UPDATE=OFF
+	-DDESKTOP_UPDATE=OFF \
+	-DDISABLE_CONTRACT=ON
 
 %{__make}
 
