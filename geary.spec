@@ -1,18 +1,18 @@
-Summary:	A lightweight email program designed around conversations
+Summary:	Geary is an IMAP mail client for GNOME 3
 Name:		geary
-Version:	0.8.3
+Version:	0.10.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Mail
-Source0:	https://download.gnome.org/sources/geary/0.8/%{name}-%{version}.tar.xz
-# Source0-md5:	099ddc09b343c67f2e60458350fbbebf
-URL:		http://yorba.org/geary/
+Source0:	https://download.gnome.org/sources/geary/0.10/%{name}-%{version}.tar.xz
+# Source0-md5:	c9735cb5eb53384c0c9d40ff815ed232
+URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
 BuildRequires:	gcr-devel >= 3.10.1
 BuildRequires:	gettext
-BuildRequires:	glib2-devel >= 1:2.30.0
-BuildRequires:	gmime-devel >= 2.6.0
+BuildRequires:	glib2-devel >= 1:2.34.0
+BuildRequires:	gmime-devel >= 2.6.14
 BuildRequires:	gtk+3-devel >= 3.12.0
 BuildRequires:	gtk-webkit3-devel >= 1.10.0
 BuildRequires:	intltool
@@ -24,25 +24,28 @@ BuildRequires:	libsoup-devel
 BuildRequires:	libxml2-devel >= 2.7.8
 BuildRequires:	pkgconfig
 BuildRequires:	sqlite3-devel >= 3.7.4
-BuildRequires:	vala >= 0.17.4
+BuildRequires:	vala >= 0.22.1
 BuildRequires:	vala-gcr >= 3.10.1
-BuildRequires:	vala-libcanberra
+BuildRequires:	vala-libcanberra >= 0.28
+BuildRequires:	vala-libgee >= 0.8.5
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	glib2 >= 1:2.28.0
+Requires(post,postun):	glib2 >= 1:2.34.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	hicolor-icon-theme
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Geary is a new email reader for GNOME designed to let you read your
-email quickly and effortlessly. Its interface is based on
-conversations, so you can easily read an entire discussion without
-having to click from message to message. Geary is still in early
-development and has limited features today, but we're planning to add
-drag-and-drop attachments, lightning-fast searching, multiple account
-support and much more. Eventually we'd like Geary to have an
-extensible plugin architecture so that developers will be able to add
-all kinds of nifty features in a modular way.
+Geary is an IMAP email client built for the GNOME desktop environment.
+It allows you to read and send email with a simple, modern interface.
+Features:
+- Modern and straightforward interface
+- Quick account setup
+- Supports Gmail, Yahoo! Mail, Outlook.com, and popular IMAP servers
+  (Dovecot, Cyrus, Zimbra, etc.)
+- Mail organized by conversations
+- Full-featured HTML mail composer
+- Fast keyword search
+- Desktop notification of new mail
 
 %prep
 %setup -q
@@ -88,5 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/geary.desktop
 %{_desktopdir}/geary-autostart.desktop
 %{_datadir}/glib-2.0/schemas/org.yorba.geary.gschema.xml
-%{_iconsdir}/hicolor/*/apps/geary.*
+%{_iconsdir}/hicolor/*/apps/geary.png
+%{_iconsdir}/hicolor/scalable/actions/*.svg
 
