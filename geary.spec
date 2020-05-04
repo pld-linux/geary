@@ -2,12 +2,12 @@
 Summary:	Geary - mail client for GNOME 3
 Summary(pl.UTF-8):	Geary - klient pocztowy dla GNOME 3
 Name:		geary
-Version:	3.34.2
+Version:	3.36.2
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Applications/Mail
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/geary/3.34/%{name}-%{version}.tar.xz
-# Source0-md5:	7917e7b784b13f34a909a5c08e8861aa
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/geary/3.36/%{name}-%{version}.tar.xz
+# Source0-md5:	38f08cc2401ea138ce8c4ecd0ff912a5
 Patch0:		%{name}-meson.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
@@ -16,63 +16,66 @@ BuildRequires:	enchant2-devel >= 2.1
 BuildRequires:	folks-devel >= 0.11
 BuildRequires:	gcr-devel >= 3.10.1
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.54
-BuildRequires:	gmime-devel >= 2.6.17
+BuildRequires:	glib2-devel >= 1:2.60.4
+BuildRequires:	gmime3-devel >= 3.2.4
 BuildRequires:	gnome-online-accounts-devel
 BuildRequires:	gspell-devel
 BuildRequires:	gtk+3-devel >= 3.24.7
-BuildRequires:	gtk-webkit4-devel >= 2.24
+BuildRequires:	gtk-webkit4-devel >= 2.26
 BuildRequires:	iso-codes
 BuildRequires:	json-glib-devel >= 1.0
 BuildRequires:	libcanberra-devel >= 0.28
 BuildRequires:	libgee-devel >= 0.8.5
-BuildRequires:	libhandy-devel >= 0.0.9
+BuildRequires:	libhandy-devel >= 0.0.10
 BuildRequires:	libnotify-devel >= 0.7.5
+BuildRequires:	libpeas-devel >= 1.24.0
 BuildRequires:	libsecret-devel >= 0.11
 BuildRequires:	libsoup-devel >= 2.48
 BuildRequires:	libunwind-devel >= 1.1
 BuildRequires:	libxml2-devel >= 1:2.7.8
 BuildRequires:	libytnef-devel >= 1.9.3
-BuildRequires:	meson >= 0.49
+BuildRequires:	meson >= 0.50
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
-BuildRequires:	sqlite3-devel >= 3.12
+BuildRequires:	sqlite3-devel >= 3.24
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 0.22.1
 BuildRequires:	vala-folks >= 0.11
 BuildRequires:	vala-gcr >= 3.10.1
+BuildRequires:	vala-gmime3 >= 3.2.4
 BuildRequires:	vala-gnome-online-accounts
 BuildRequires:	vala-gspell
 BuildRequires:	vala-libcanberra >= 0.28
 BuildRequires:	vala-libgee >= 0.8.5
-BuildRequires:	vala-libhandy >= 0.0.9
+BuildRequires:	vala-libhandy >= 0.0.10
 BuildRequires:	vala-libsecret >= 0.11
 BuildRequires:	valadoc
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	glib2 >= 1:2.54
+Requires(post,postun):	glib2 >= 1:2.60.4
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	appstream-glib >= 0.7.10
 Requires:	enchant2 >= 2.1
 Requires:	folks >= 0.11
 Requires:	gcr >= 3.10.1
-Requires:	glib2 >= 1:2.54
-Requires:	gmime >= 2.6.17
+Requires:	glib2 >= 1:2.60.4
+Requires:	gmime3 >= 3.2.4
 Requires:	gtk+3 >= 3.24.7
-Requires:	gtk-webkit4 >= 2.24
+Requires:	gtk-webkit4 >= 2.26
 Requires:	hicolor-icon-theme
 Requires:	iso-codes
 Requires:	json-glib >= 1.0
 Requires:	libcanberra >= 0.28
 Requires:	libgee >= 0.8.5
-Requires:	libhandy >= 0.0.9
+Requires:	libhandy >= 0.0.10
+Requires:	libpeas >= 1.24.0
 Requires:	libsecret >= 0.11
 Requires:	libsoup >= 2.48
 Requires:	libunwind >= 1.1
 Requires:	libxml2 >= 1:2.7.8
 Requires:	libytnef >= 1.9.3
-Requires:	sqlite3 >= 3.12
+Requires:	sqlite3 >= 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -123,8 +126,16 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING.{icons,snowball} NEWS README.md THANKS
 %attr(755,root,root) %{_bindir}/geary
 %dir %{_libdir}/geary
+%attr(755,root,root) %{_libdir}/geary/libgeary-client-3.36.so
 %dir %{_libdir}/geary/web-extensions
 %attr(755,root,root) %{_libdir}/geary/web-extensions/libgeary-web-process.so
+%dir %{_libdir}/geary/plugins
+%dir %{_libdir}/geary/plugins/desktop-notifications
+%attr(755,root,root) %{_libdir}/geary/plugins/desktop-notifications/libdesktop-notifications.so
+%{_libdir}/geary/plugins/desktop-notifications/desktop-notifications.plugin
+%dir %{_libdir}/geary/plugins/notification-badge
+%attr(755,root,root) %{_libdir}/geary/plugins/notification-badge/libnotification-badge.so
+%{_libdir}/geary/plugins/notification-badge/notification-badge.plugin
 %{_datadir}/dbus-1/services/org.gnome.Geary.service
 %{_datadir}/geary
 %{_datadir}/glib-2.0/schemas/org.gnome.Geary.gschema.xml
@@ -134,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/scalable/actions/close-symbolic.svg
 %{_iconsdir}/hicolor/scalable/actions/detach-symbolic.svg
 %{_iconsdir}/hicolor/scalable/actions/edit-symbolic.svg
+%{_iconsdir}/hicolor/scalable/actions/font-color-symbolic.svg
+%{_iconsdir}/hicolor/scalable/actions/font-size-symbolic.svg
 %{_iconsdir}/hicolor/scalable/actions/format-*-symbolic*.svg
 %{_iconsdir}/hicolor/scalable/actions/mail-*-symbolic*.svg
 %{_iconsdir}/hicolor/scalable/actions/marker-symbolic.svg
