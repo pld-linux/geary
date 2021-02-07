@@ -2,12 +2,12 @@
 Summary:	Geary - mail client for GNOME 3
 Summary(pl.UTF-8):	Geary - klient pocztowy dla GNOME 3
 Name:		geary
-Version:	3.38.1
+Version:	3.38.2
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Applications/Mail
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/geary/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	d095f766b72ca7c08d85064fcef5cc23
+Source0:	https://download.gnome.org/sources/geary/3.38/%{name}-%{version}.tar.xz
+# Source0-md5:	7553677d1fccf3b360534d4b73ac89d2
 Patch0:		%{name}-meson.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
