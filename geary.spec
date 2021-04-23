@@ -1,13 +1,16 @@
-#TODO? messaging-menu >= 12.10, unity >= 5.12.0
+#
+# Conditional build:
+%bcond_with	unity	# Unity integration (messaging-menu)
+
 Summary:	Geary - mail client for GNOME 3
 Summary(pl.UTF-8):	Geary - klient pocztowy dla GNOME 3
 Name:		geary
-Version:	3.38.2
-Release:	2
+Version:	40.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Applications/Mail
-Source0:	https://download.gnome.org/sources/geary/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	7553677d1fccf3b360534d4b73ac89d2
+Source0:	https://download.gnome.org/sources/geary/40/%{name}-%{version}.tar.xz
+# Source0-md5:	cb7b0af62e870ef77d65b3a2631ebb55
 Patch0:		%{name}-meson.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
@@ -17,61 +20,67 @@ BuildRequires:	enchant2-devel >= 2.1
 BuildRequires:	folks-devel >= 0.11
 BuildRequires:	gcr-devel >= 3.10.1
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.64
+BuildRequires:	glib2-devel >= 1:2.66
 BuildRequires:	gmime3-devel >= 3.2.4
 BuildRequires:	gnome-online-accounts-devel
 BuildRequires:	gspell-devel
 BuildRequires:	gsound-devel
-BuildRequires:	gtk+3-devel >= 3.24.7
-BuildRequires:	gtk-webkit4-devel >= 2.26
+BuildRequires:	gtk+3-devel >= 3.24.23
+BuildRequires:	gtk-webkit4-devel >= 2.30
 BuildRequires:	iso-codes
 BuildRequires:	json-glib-devel >= 1.0
 BuildRequires:	libcanberra-devel >= 0.28
 BuildRequires:	libgee-devel >= 0.8.5
-BuildRequires:	libhandy1-devel >= 0.90
+BuildRequires:	libhandy1-devel >= 1.2.1
+BuildRequires:	libicu-devel >= 60
+%{?with_unity:BuildRequires:	indicator-messages-devel >= 12.10}
 BuildRequires:	libnotify-devel >= 0.7.5
 BuildRequires:	libpeas-devel >= 1.24.0
 BuildRequires:	libpeas-gtk-devel >= 1.24.0
 BuildRequires:	libsecret-devel >= 0.11
 BuildRequires:	libsoup-devel >= 2.48
+BuildRequires:	libstemmer-devel
 BuildRequires:	libunwind-devel >= 1.1
 BuildRequires:	libxml2-devel >= 1:2.7.8
 BuildRequires:	libytnef-devel >= 1.9.3
-BuildRequires:	meson >= 0.50
+BuildRequires:	meson >= 0.55
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.24
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	vala >= 0.48.6
+BuildRequires:	vala >= 2:0.48.11
 BuildRequires:	vala-folks >= 0.11
 BuildRequires:	vala-gcr >= 3.10.1
 BuildRequires:	vala-gmime3 >= 3.2.4
 BuildRequires:	vala-gnome-online-accounts
 BuildRequires:	vala-gspell
+%{?with_unity:BuildRequires:	vala-indicator-messages >= 12.10}
 BuildRequires:	vala-libcanberra >= 0.28
 BuildRequires:	vala-libgee >= 0.8.5
-BuildRequires:	vala-libhandy1 >= 0.90
+BuildRequires:	vala-libhandy1 >= 1.2.1
 BuildRequires:	vala-libsecret >= 0.11
 BuildRequires:	valadoc
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	glib2 >= 1:2.64
+Requires(post,postun):	glib2 >= 1:2.66
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	appstream-glib >= 0.7.10
 Requires:	enchant2 >= 2.1
 Requires:	folks >= 0.11
 Requires:	gcr >= 3.10.1
-Requires:	glib2 >= 1:2.64
+Requires:	glib2 >= 1:2.66
 Requires:	gmime3 >= 3.2.4
-Requires:	gtk+3 >= 3.24.7
-Requires:	gtk-webkit4 >= 2.26
+Requires:	gtk+3 >= 3.24.23
+Requires:	gtk-webkit4 >= 2.30
 Requires:	hicolor-icon-theme
+%{?with_unity:Requires:	indicator-messages-libs >= 12.10}
 Requires:	iso-codes
 Requires:	json-glib >= 1.0
 Requires:	libcanberra >= 0.28
 Requires:	libgee >= 0.8.5
-Requires:	libhandy1 >= 0.90
+Requires:	libhandy1 >= 1.2.1
 Requires:	libpeas >= 1.24.0
 Requires:	libpeas-gtk >= 1.24.0
 Requires:	libsecret >= 0.11
@@ -97,10 +106,16 @@ interfejsem.
 %setup -q
 %patch0 -p1
 
+%if %{without unity}
+%{__sed} -i -e '/^subdir.*messaging-menu/ d' src/client/plugin/meson.build
+%endif
+
 %build
+CPPFLAGS="%{rpmcppflags} -I/usr/include/libstemmer"
 %meson build \
 	--default-library=shared \
-	-Dvaladoc=true
+	-Dprofile=release \
+	-Dvaladoc=enabled
 
 %ninja_build -C build
 
@@ -126,10 +141,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING.{icons,snowball} NEWS README.md THANKS
+%doc AUTHORS COPYING.icons NEWS README.md THANKS
 %attr(755,root,root) %{_bindir}/geary
 %dir %{_libdir}/geary
-%attr(755,root,root) %{_libdir}/geary/libgeary-client-3.38.so
+%attr(755,root,root) %{_libdir}/geary/libgeary-client-40.0.so
 %dir %{_libdir}/geary/web-extensions
 %attr(755,root,root) %{_libdir}/geary/web-extensions/libgeary-web-process.so
 %dir %{_libdir}/geary/plugins
