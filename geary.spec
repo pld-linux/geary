@@ -55,6 +55,7 @@ BuildRequires:	vala-folks >= 0.11
 BuildRequires:	vala-gcr >= 3.10.1
 BuildRequires:	vala-gmime3 >= 3.2.4
 BuildRequires:	vala-gnome-online-accounts
+BuildRequires:	vala-gsound
 BuildRequires:	vala-gspell
 %{?with_unity:BuildRequires:	vala-indicator-messages >= 12.10}
 BuildRequires:	vala-libcanberra >= 0.28
