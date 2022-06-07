@@ -12,6 +12,7 @@ Group:		X11/Applications/Mail
 Source0:	https://download.gnome.org/sources/geary/40/%{name}-%{version}.tar.xz
 # Source0-md5:	cb7b0af62e870ef77d65b3a2631ebb55
 Patch0:		%{name}-meson.patch
+Patch1:		vala.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
 BuildRequires:	cairo-devel
@@ -106,6 +107,7 @@ interfejsem.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %if %{without unity}
 %{__sed} -i -e '/^subdir.*messaging-menu/ d' src/client/plugin/meson.build
