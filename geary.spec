@@ -5,14 +5,15 @@
 Summary:	Geary - mail client for GNOME 3
 Summary(pl.UTF-8):	Geary - klient pocztowy dla GNOME 3
 Name:		geary
-Version:	40.0
-Release:	5
+Version:	43.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Applications/Mail
-Source0:	https://download.gnome.org/sources/geary/40/%{name}-%{version}.tar.xz
-# Source0-md5:	cb7b0af62e870ef77d65b3a2631ebb55
+Source0:	https://download.gnome.org/sources/geary/43/%{name}-%{version}.tar.xz
+# Source0-md5:	7630b0ec6cda7991407422853ed0fb75
 Patch0:		%{name}-meson.patch
-Patch1:		vala.patch
+Patch1:		%{name}-type-arguments.patch
+Patch2:		%{name}-non-null.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
 BuildRequires:	cairo-devel
@@ -21,13 +22,13 @@ BuildRequires:	enchant2-devel >= 2.1
 BuildRequires:	folks-devel >= 0.11
 BuildRequires:	gcr-devel >= 3.10.1
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.66
+BuildRequires:	glib2-devel >= 1:2.68
 BuildRequires:	gmime3-devel >= 3.2.4
 BuildRequires:	gnome-online-accounts-devel
-BuildRequires:	gspell-devel
 BuildRequires:	gsound-devel
+BuildRequires:	gspell-devel
 BuildRequires:	gtk+3-devel >= 3.24.23
-BuildRequires:	gtk-webkit4-devel >= 2.30
+BuildRequires:	gtk-webkit4.1-devel >= 2.34
 BuildRequires:	iso-codes
 BuildRequires:	json-glib-devel >= 1.0
 BuildRequires:	libcanberra-devel >= 0.28
@@ -39,19 +40,19 @@ BuildRequires:	libnotify-devel >= 0.7.5
 BuildRequires:	libpeas-devel >= 1.24.0
 BuildRequires:	libpeas-gtk-devel >= 1.24.0
 BuildRequires:	libsecret-devel >= 0.11
-BuildRequires:	libsoup-devel >= 2.48
+BuildRequires:	libsoup3-devel >= 3.0
 BuildRequires:	libstemmer-devel
 BuildRequires:	libunwind-devel >= 1.1
 BuildRequires:	libxml2-devel >= 1:2.7.8
 BuildRequires:	libytnef-devel >= 1.9.3
-BuildRequires:	meson >= 0.55
+BuildRequires:	meson >= 0.59
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.24
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	vala >= 2:0.48.11
+BuildRequires:	vala >= 2:0.48.18
 BuildRequires:	vala-folks >= 0.11
 BuildRequires:	vala-gcr >= 3.10.1
 BuildRequires:	vala-gmime3 >= 3.2.4
@@ -66,16 +67,16 @@ BuildRequires:	vala-libsecret >= 0.11
 BuildRequires:	valadoc
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	glib2 >= 1:2.66
+Requires(post,postun):	glib2 >= 1:2.68
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	appstream-glib >= 0.7.10
 Requires:	enchant2 >= 2.1
 Requires:	folks >= 0.11
 Requires:	gcr >= 3.10.1
-Requires:	glib2 >= 1:2.66
+Requires:	glib2 >= 1:2.68
 Requires:	gmime3 >= 3.2.4
 Requires:	gtk+3 >= 3.24.23
-Requires:	gtk-webkit4 >= 2.30
+Requires:	gtk-webkit4.1 >= 2.34
 Requires:	hicolor-icon-theme
 %{?with_unity:Requires:	indicator-messages-libs >= 12.10}
 Requires:	iso-codes
@@ -86,7 +87,7 @@ Requires:	libhandy1 >= 1.2.1
 Requires:	libpeas >= 1.24.0
 Requires:	libpeas-gtk >= 1.24.0
 Requires:	libsecret >= 0.11
-Requires:	libsoup >= 2.48
+Requires:	libsoup3 >= 3.0
 Requires:	libunwind >= 1.1
 Requires:	libxml2 >= 1:2.7.8
 Requires:	libytnef >= 1.9.3
@@ -108,6 +109,7 @@ interfejsem.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %if %{without unity}
 %{__sed} -i -e '/^subdir.*messaging-menu/ d' src/client/plugin/meson.build
@@ -147,7 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING.icons NEWS README.md THANKS
 %attr(755,root,root) %{_bindir}/geary
 %dir %{_libdir}/geary
-%attr(755,root,root) %{_libdir}/geary/libgeary-client-40.0.so
+%attr(755,root,root) %{_libdir}/geary/libgeary-client-43.0.so
 %dir %{_libdir}/geary/web-extensions
 %attr(755,root,root) %{_libdir}/geary/web-extensions/libgeary-web-process.so
 %dir %{_libdir}/geary/plugins
@@ -193,7 +195,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/scalable/actions/font-size-symbolic.svg
 %{_iconsdir}/hicolor/scalable/actions/format-*-symbolic*.svg
 %{_iconsdir}/hicolor/scalable/actions/mail-*-symbolic*.svg
-%{_iconsdir}/hicolor/scalable/actions/marker-symbolic.svg
 %{_iconsdir}/hicolor/scalable/actions/tag-symbolic*.svg
 %{_iconsdir}/hicolor/scalable/actions/text-x-generic-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Geary.svg
