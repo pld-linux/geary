@@ -5,15 +5,13 @@
 Summary:	Geary - mail client for GNOME 3
 Summary(pl.UTF-8):	Geary - klient pocztowy dla GNOME 3
 Name:		geary
-Version:	43.0
-Release:	2
+Version:	44.0
+Release:	1
 License:	LGPL v2.1+
 Group:		X11/Applications/Mail
-Source0:	https://download.gnome.org/sources/geary/43/%{name}-%{version}.tar.xz
-# Source0-md5:	7630b0ec6cda7991407422853ed0fb75
+Source0:	https://download.gnome.org/sources/geary/44/%{name}-%{version}.tar.xz
+# Source0-md5:	f6285b9aa38933908c270e038ec3ee4c
 Patch0:		%{name}-meson.patch
-Patch1:		%{name}-type-arguments.patch
-Patch2:		%{name}-non-null.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
 BuildRequires:	cairo-devel
@@ -108,8 +106,6 @@ interfejsem.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %if %{without unity}
 %{__sed} -i -e '/^subdir.*messaging-menu/ d' src/client/plugin/meson.build
@@ -128,6 +124,9 @@ CPPFLAGS="%{rpmcppflags} -I/usr/include/libstemmer"
 rm -rf $RPM_BUILD_ROOT
 
 %ninja_install -C build
+
+# not supported by glibc (as of 2.37)
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ie
 
 %find_lang %{name} --with-gnome
 
@@ -149,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING.icons NEWS README.md THANKS
 %attr(755,root,root) %{_bindir}/geary
 %dir %{_libdir}/geary
-%attr(755,root,root) %{_libdir}/geary/libgeary-client-43.0.so
+%attr(755,root,root) %{_libdir}/geary/libgeary-client-44.0.so
 %dir %{_libdir}/geary/web-extensions
 %attr(755,root,root) %{_libdir}/geary/web-extensions/libgeary-web-process.so
 %dir %{_libdir}/geary/plugins
