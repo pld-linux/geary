@@ -5,12 +5,12 @@
 Summary:	Geary - mail client for GNOME 3
 Summary(pl.UTF-8):	Geary - klient pocztowy dla GNOME 3
 Name:		geary
-Version:	44.1
+Version:	46.0
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Applications/Mail
-Source0:	https://download.gnome.org/sources/geary/44/%{name}-%{version}.tar.xz
-# Source0-md5:	cadff1d3e213eebe1431aead359e90c7
+Source0:	https://download.gnome.org/sources/geary/46/%{name}-%{version}.tar.xz
+# Source0-md5:	a76664c8b5690965e1251e92afa60a65
 Patch0:		%{name}-meson.patch
 URL:		https://wiki.gnome.org/Apps/Geary
 BuildRequires:	appstream-glib-devel >= 0.7.10
@@ -25,7 +25,7 @@ BuildRequires:	gmime3-devel >= 3.2.4
 BuildRequires:	gnome-online-accounts-devel
 BuildRequires:	gsound-devel
 BuildRequires:	gspell-devel
-BuildRequires:	gtk+3-devel >= 3.24.23
+BuildRequires:	gtk+3-devel >= 3.24.24
 BuildRequires:	gtk-webkit4.1-devel >= 2.34
 BuildRequires:	iso-codes
 BuildRequires:	json-glib-devel >= 1.0
@@ -73,7 +73,7 @@ Requires:	folks >= 0.11
 Requires:	gcr >= 3.10.1
 Requires:	glib2 >= 1:2.68
 Requires:	gmime3 >= 3.2.4
-Requires:	gtk+3 >= 3.24.23
+Requires:	gtk+3 >= 3.24.24
 Requires:	gtk-webkit4.1 >= 2.34
 Requires:	hicolor-icon-theme
 %{?with_unity:Requires:	indicator-messages-libs >= 12.10}
