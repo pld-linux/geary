@@ -105,7 +105,7 @@ interfejsem.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %if %{without unity}
 %{__sed} -i -e '/^subdir.*messaging-menu/ d' src/client/plugin/meson.build
